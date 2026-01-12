@@ -2,14 +2,13 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Users, ShoppingCart, FileText, Menu } from "lucide-react"
+import { Home, Users, FileText, Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/clients", label: "Klienci", icon: Users },
-  { href: "/orders", label: "Zamówienia", icon: ShoppingCart },
   { href: "/invoices", label: "Faktury", icon: FileText },
 ]
 
@@ -18,6 +17,7 @@ const moreItems = [
   { href: "/ranking", label: "Ranking" },
   { href: "/promotions", label: "Promocje" },
   { href: "/help", label: "Pomoc" },
+  { href: "/orders", label: "Zamówienia" }, // added orders back to moreItems
 ]
 
 export function BottomNav() {
