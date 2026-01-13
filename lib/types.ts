@@ -67,6 +67,8 @@ export interface Promotion {
   type: "product" | "points" | "info"
   multiplier?: number // Added multiplier for bonus promotions (e.g. 2 for x2 points)
   discountBonus?: number // Added discount bonus percentage
+  assignedProductIds?: string[] // Added assigned products and status
+  isActive: boolean
 }
 
 export interface RankingEntry {
