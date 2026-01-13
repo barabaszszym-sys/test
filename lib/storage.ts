@@ -128,3 +128,19 @@ export function getPromotions(): Promotion[] {
 export function getRanking(): RankingEntry[] {
   return getItem(STORAGE_KEYS.RANKING, mockRanking)
 }
+
+export function getFromStorage<T>(key: string): T | null {
+  if (typeof window === "undefined") return null
+  const item = localStorage.getItem(key)
+  if (!item) return null
+  try {
+    return JSON.parse(item) as T
+  } catch {
+    return null
+  }
+}
+
+export function saveToStorage<T>(key: string, value: T): void {
+  if (typeof window === "undefined") return
+  localStorage.setItem(key, JSON.stringify(value))
+}

@@ -17,6 +17,7 @@ const moreItems = [
   { href: "/profile", label: "Profil" },
   { href: "/ranking", label: "Ranking" },
   { href: "/help", label: "Pomoc" },
+  { href: "/admin", label: "Panel Admin" },
 ]
 
 export function BottomNav() {
