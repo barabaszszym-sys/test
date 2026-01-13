@@ -89,6 +89,19 @@ export interface Invoice {
   distributorId: string
 }
 
+export interface Product {
+  id: string
+  name: string
+  category: "premium" | "standard" | "bio" | "starter"
+  description: string
+  protein: number // % zawartości białka
+  weight: number // kg
+  pricePerUnit: number // PLN
+  imageUrl: string
+  inStock: boolean
+  features: string[]
+}
+
 // Progi rabatowe
 export const DISCOUNT_THRESHOLDS = [
   { minClients: 0, discount: 0 },
