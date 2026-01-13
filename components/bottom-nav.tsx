@@ -16,9 +16,7 @@ const navItems = [
 const moreItems = [
   { href: "/profile", label: "Profil" },
   { href: "/ranking", label: "Ranking" },
-  { href: "/promotions", label: "Promocje" },
   { href: "/help", label: "Pomoc" },
-  { href: "/orders", label: "Zamówienia" },
 ]
 
 export function BottomNav() {
