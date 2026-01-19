@@ -104,6 +104,62 @@ export interface Product {
   features: string[]
 }
 
+// Role i uprawnienia
+export type UserRole = "admin" | "salesperson"
+
+export interface Permission {
+  id: string
+  name: string
+  description: string
+}
+
+export interface Role {
+  id: string
+  name: string
+  displayName: string
+  description: string
+  permissions: string[] // IDs uprawnień
+}
+
+export interface AdminUser {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  role: UserRole
+  assignedDistributorIds: string[] // Dla handlowca - przypisani dystrybutorzy
+  isActive: boolean
+  createdAt: string
+}
+
+// Lista wszystkich uprawnień w systemie
+export const ALL_PERMISSIONS: Permission[] = [
+  { id: "products.view", name: "Produkty - podgląd", description: "Przeglądanie listy produktów" },
+  { id: "products.edit", name: "Produkty - edycja", description: "Dodawanie i edycja produktów" },
+  { id: "products.delete", name: "Produkty - usuwanie", description: "Usuwanie produktów" },
+  { id: "distributors.view", name: "Dystrybutorzy - podgląd", description: "Przeglądanie listy dystrybutorów" },
+  { id: "distributors.view_own", name: "Dystrybutorzy - podgląd własnych", description: "Przeglądanie tylko przypisanych dystrybutorów" },
+  { id: "distributors.edit", name: "Dystrybutorzy - edycja", description: "Edycja danych dystrybutorów" },
+  { id: "distributors.delete", name: "Dystrybutorzy - usuwanie", description: "Usuwanie dystrybutorów" },
+  { id: "clients.view", name: "Klienci - podgląd", description: "Przeglądanie listy klientów" },
+  { id: "clients.view_own", name: "Klienci - podgląd własnych", description: "Przeglądanie klientów przypisanych dystrybutorów" },
+  { id: "clients.edit", name: "Klienci - edycja", description: "Edycja danych klientów" },
+  { id: "clients.delete", name: "Klienci - usuwanie", description: "Usuwanie klientów" },
+  { id: "promotions.view", name: "Promocje - podgląd", description: "Przeglądanie listy promocji" },
+  { id: "promotions.edit", name: "Promocje - edycja", description: "Dodawanie i edycja promocji" },
+  { id: "promotions.delete", name: "Promocje - usuwanie", description: "Usuwanie promocji" },
+  { id: "sales.view", name: "Sprzedaż - podgląd", description: "Przeglądanie raportów sprzedaży" },
+  { id: "sales.view_own", name: "Sprzedaż - podgląd własnych", description: "Przeglądanie sprzedaży przypisanych dystrybutorów" },
+  { id: "settings.view", name: "Ustawienia - podgląd", description: "Przeglądanie ustawień" },
+  { id: "settings.edit", name: "Ustawienia - edycja", description: "Edycja ustawień systemowych" },
+  { id: "users.view", name: "Użytkownicy - podgląd", description: "Przeglądanie listy użytkowników" },
+  { id: "users.edit", name: "Użytkownicy - edycja", description: "Dodawanie i edycja użytkowników" },
+  { id: "users.delete", name: "Użytkownicy - usuwanie", description: "Usuwanie użytkowników" },
+  { id: "roles.view", name: "Role - podgląd", description: "Przeglądanie ról i uprawnień" },
+  { id: "roles.edit", name: "Role - edycja", description: "Edycja ról i uprawnień" },
+]
+
 // Progi rabatowe
 export const DISCOUNT_THRESHOLDS = [
   { minClients: 0, discount: 0 },

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Package, Users, UserCheck, Tag, BarChart3, Settings, ArrowLeft } from "lucide-react"
+import { Package, Users, UserCheck, Tag, BarChart3, Settings, ArrowLeft, Shield } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const menuItems = [
@@ -11,6 +11,7 @@ const menuItems = [
   { href: "/admin/clients", label: "Klienci", icon: UserCheck },
   { href: "/admin/promotions", label: "Promocje", icon: Tag },
   { href: "/admin/sales", label: "Sprzedaż", icon: BarChart3 },
+  { href: "/admin/roles", label: "Role i uprawnienia", icon: Shield },
   { href: "/admin/settings", label: "Ustawienia", icon: Settings },
 ]
 

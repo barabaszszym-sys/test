@@ -1,4 +1,4 @@
-import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product } from "./types"
+import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser } from "./types"
 
 export const mockConsultant = {
   id: "cons-1",
@@ -412,6 +412,98 @@ export const mockProducts: Product[] = [
     imageUrl: "/bio-standard-organic-feed.jpg",
     inStock: false,
     features: ["Certyfikat ekologiczny", "Zawartość białka 43%", "Bez GMO", "Dobra cena w segmencie bio"],
+  },
+]
+
+// Role systemowe
+export const mockRoles: Role[] = [
+  {
+    id: "role-admin",
+    name: "admin",
+    displayName: "Administrator",
+    description: "Pełny dostęp do wszystkich funkcji systemu. Zarządzanie użytkownikami, rolami i ustawieniami.",
+    permissions: [
+      "products.view", "products.edit", "products.delete",
+      "distributors.view", "distributors.edit", "distributors.delete",
+      "clients.view", "clients.edit", "clients.delete",
+      "promotions.view", "promotions.edit", "promotions.delete",
+      "sales.view",
+      "settings.view", "settings.edit",
+      "users.view", "users.edit", "users.delete",
+      "roles.view", "roles.edit",
+    ],
+  },
+  {
+    id: "role-salesperson",
+    name: "salesperson",
+    displayName: "Handlowiec",
+    description: "Zarządzanie przypisanymi dystrybutorami i ich klientami. Podgląd produktów i promocji.",
+    permissions: [
+      "products.view",
+      "distributors.view_own", "distributors.edit",
+      "clients.view_own", "clients.edit",
+      "promotions.view",
+      "sales.view_own",
+    ],
+  },
+]
+
+// Użytkownicy panelu administracyjnego
+export const mockAdminUsers: AdminUser[] = [
+  {
+    id: "user-1",
+    firstName: "Jan",
+    lastName: "Administracyjny",
+    email: "jan.admin@soymax.pl",
+    phone: "+48 600 000 001",
+    role: "admin",
+    assignedDistributorIds: [],
+    isActive: true,
+    createdAt: "2024-01-01",
+  },
+  {
+    id: "user-2",
+    firstName: "Anna",
+    lastName: "Kowalska",
+    email: "anna.kowalska@soymax.pl",
+    phone: "+48 600 123 456",
+    role: "salesperson",
+    assignedDistributorIds: ["dist-1", "dist-2", "dist-5", "dist-8"],
+    isActive: true,
+    createdAt: "2024-02-15",
+  },
+  {
+    id: "user-3",
+    firstName: "Marek",
+    lastName: "Wiśniewski",
+    email: "marek.wisniewski@soymax.pl",
+    phone: "+48 601 234 567",
+    role: "salesperson",
+    assignedDistributorIds: ["dist-3", "dist-4"],
+    isActive: true,
+    createdAt: "2024-03-10",
+  },
+  {
+    id: "user-4",
+    firstName: "Katarzyna",
+    lastName: "Nowak",
+    email: "katarzyna.nowak@soymax.pl",
+    phone: "+48 602 345 678",
+    role: "salesperson",
+    assignedDistributorIds: ["dist-6", "dist-7"],
+    isActive: true,
+    createdAt: "2024-04-20",
+  },
+  {
+    id: "user-5",
+    firstName: "Piotr",
+    lastName: "Zieliński",
+    email: "piotr.zielinski@soymax.pl",
+    phone: "+48 603 456 789",
+    role: "salesperson",
+    assignedDistributorIds: [],
+    isActive: false,
+    createdAt: "2024-01-15",
   },
 ]
 
