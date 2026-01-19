@@ -2,7 +2,7 @@
 
 ## Opis projektu
 
-Aplikacja mobilna (PWA) dla dystrybutorów firmy SOYMAX, umożliwiająca zarządzanie programem lojalnościowym, rejestrację klientów końcowych oraz śledzenie rabatów i faktur.
+Aplikacja mobilna (PWA) dla dystrybutorów firmy SOYMAX, umożliwiająca zarządzanie programem lojalnościowym, rejestrację klientów końcowych oraz śledzenie rabatów i faktur. System obejmuje również panel administracyjny dla pracowników SOYMAX oraz aplikację dla klientów końcowych.
 
 ---
 
@@ -21,15 +21,16 @@ Aplikacja mobilna (PWA) dla dystrybutorów firmy SOYMAX, umożliwiająca zarząd
 
 ## 2. Role użytkowników
 
-| Rola | Opis | Szacowana liczba |
-|------|------|------------------|
-| **Admin/Konsultant** | Pracownicy SOYMAX zarządzający dystrybutorami | ~10 osób |
-| **Dystrybutor** | Główni użytkownicy aplikacji | 200-500 |
-| **Klient końcowy** | Zarejestrowani przez dystrybutorów | setki/tysiące |
+| Rola | Opis | Uprawnienia | Szacowana liczba |
+|------|------|-------------|------------------|
+| **Administrator** | Pełny dostęp do systemu | Zarządzanie wszystkimi danymi, użytkownikami, rolami | ~5 osób |
+| **Handlowiec** | Pracownik SOYMAX opiekujący się dystrybutorami | Zarządzanie przypisanymi dystrybutorami i ich klientami, dodawanie wizyt | ~10-20 osób |
+| **Dystrybutor** | Główni użytkownicy aplikacji mobilnej | Rejestracja klientów, podgląd rabatów, faktur, promocji | 200-500 |
+| **Klient końcowy** | Użytkownicy aplikacji klienta | Podgląd punktów, wymiana nagród, kod QR | setki/tysiące |
 
 ---
 
-## 3. Ekrany aplikacji
+## 3. Ekrany aplikacji dystrybutora
 
 ### 3.1 Ekran logowania (`/`)
 - Prosty przycisk "Zaloguj się"
@@ -48,7 +49,7 @@ Główny ekran po zalogowaniu z podsumowaniem statusu dystrybutora.
 
 **Elementy:**
 1. **Karta "Rabat specjalny"**
-   - Aktualny procent rabatu (duża cyfra)
+   - Aktualny procent rabatu (duża cyfra wycentrowana)
    - Progress bar do następnego progu (orange-500)
    - Informacja o kolejnym progu: "kolejny rabat: X% (Y klientów)"
    - Kliknięcie otwiera sheet z listą aktywnych bonusów z promocji
@@ -167,7 +168,34 @@ Lista faktur elektronicznych do pobrania.
 
 ---
 
-### 3.6 Szczegóły promocji (`/promotions/[id]`)
+### 3.6 Katalog produktów (`/products`)
+Przeglądanie katalogu pasz sojowych SOYMAX.
+
+**Elementy:**
+1. **Wyszukiwarka**
+   - Filtrowanie po nazwie produktu
+
+2. **Filtry kategorii (tabs)**
+   - Wszystkie / Premium / Standard / Bio / Starter
+
+3. **Galeria kart produktów**
+   - Zdjęcie produktu
+   - Nazwa produktu
+   - Kategoria (badge)
+   - Krótki opis
+   - Zawartość białka
+   - Waga opakowania
+   - Cechy produktu (badge'e)
+   - Cena netto
+
+**Wymagania produkcyjne:**
+- API: pobieranie katalogu produktów
+- Integracja z systemem magazynowym (dostępność)
+- Możliwość składania zamówień
+
+---
+
+### 3.7 Szczegóły promocji (`/promotions/[id]`)
 Strona z pełnymi informacjami o promocji.
 
 **Elementy:**
@@ -189,20 +217,180 @@ Strona z pełnymi informacjami o promocji.
 
 ---
 
-### 3.7 Ekrany planowane (poza POC)
+## 4. Aplikacja klienta końcowego (`/customer-account`)
 
-| Ekran | Ścieżka | Opis |
-|-------|---------|------|
-| Profil/Ustawienia | `/profile` | Dane dystrybutora, edycja, preferencje |
-| Ranking | `/ranking` | TOP dystrybutorów, gamifikacja |
-| Promocje (lista) | `/promotions` | Pełna lista wszystkich promocji |
-| Pomoc/FAQ | `/help` | Często zadawane pytania, kontakt |
+Widok mobile-first dla klientów końcowych programu lojalnościowego.
+
+### 4.1 Elementy główne
+
+1. **Kod QR klienta**
+   - Unikalny kod QR z identyfikatorem klienta
+   - Służy do skanowania przez dystrybutorów podczas zakupów
+   - Wyświetlany na górze ekranu
+
+2. **Stan punktów**
+   - Duża liczba aktualnie posiadanych punktów
+   - Ikona monet/gwiazdek
+
+3. **Karuzelka nagród**
+   - Lista wszystkich dostępnych nagród do wymiany
+   - Każda nagroda pokazuje: zdjęcie, nazwę, koszt w punktach
+   - Oznaczenie dostępności (w magazynie / brak)
+   - Kliknięcie otwiera szczegóły nagrody
+
+4. **Szczegóły nagrody (Sheet)**
+   - Pełny opis nagrody
+   - Zdjęcie w większym formacie
+   - Koszt w punktach
+   - Typ odbioru (u dystrybutora / w SOYMAX / dostawa)
+   - Przycisk "Wymień za X punktów"
+   - Dialog potwierdzenia wymiany
+
+5. **Lista wymienionych nagród**
+   - Historia wymian z datą i statusem
+   - Statusy: oczekuje / gotowa do odbioru / odebrana
+
+### 4.2 Kategorie nagród
+
+| Kategoria | Przykłady |
+|-----------|-----------|
+| Gadżety | Czapka, kurtka, termos, zestaw narzędzi |
+| Vouchery | Voucher 100 PLN, 250 PLN na produkty |
+| Produkty | Próbka paszy Premium 5kg |
+| Doświadczenia | Szkolenie online |
+
+### 4.3 Typy odbioru nagród
+
+| Typ | Opis |
+|-----|------|
+| `distributor` | Odbiór u dystrybutora |
+| `soymax` | Odbiór w siedzibie SOYMAX |
+| `delivery` | Dostawa kurierem |
+
+**Wymagania produkcyjne:**
+- API: pobieranie stanu punktów klienta
+- API: lista dostępnych nagród
+- API: realizacja wymiany punktów na nagrodę
+- System powiadomień o gotowości odbioru
+- Integracja z systemem magazynowym (stany nagród)
 
 ---
 
-## 4. Model danych
+## 5. Panel Administracyjny (`/admin`)
 
-### 4.1 Dystrybutor (Distributor)
+Panel do zarządzania treściami i użytkownikami systemu.
+
+### 5.1 Layout i nawigacja
+
+- Menu boczne (sidebar) z zakładkami
+- Responsywny design (desktop-first dla panelu)
+- Przycisk powrotu do aplikacji dystrybutora
+
+**Zakładki menu:**
+- Produkty
+- Dystrybutorzy
+- Klienci
+- Promocje
+- Sprzedaż
+- Role i uprawnienia
+- Ustawienia
+
+### 5.2 Zarządzanie produktami (`/admin/products`)
+
+**Funkcjonalności:**
+- Tabela produktów z wyszukiwarką
+- Kolumny: zdjęcie, nazwa, kategoria, cena, białko, waga, status
+- Drawer ze szczegółami produktu
+- Edycja danych produktu
+- Dodawanie nowego produktu
+- Usuwanie produktu
+
+### 5.3 Zarządzanie dystrybutorami (`/admin/distributors`)
+
+**Funkcjonalności:**
+- Tabela dystrybutorów z wyszukiwarką
+- Kolumny: nazwa firmy, NIP, lokalizacja, rabat, klienci, opiekun
+- Drawer ze szczegółami (zakładki: Informacje / Wizyty)
+
+**Zakładka Informacje:**
+- Pełne dane kontaktowe
+- NIP
+- Rabat podstawowy + z programu = łączny rabat
+- Liczba aktywnych klientów
+- Dane przypisanego opiekuna (handlowca)
+
+**Zakładka Wizyty (Timeline):**
+- Chronologiczna lista wizyt handlowca
+- Każda wizyta: data, notatka, nazwisko handlowca
+- Formularz dodawania nowej wizyty
+- Zapisywanie wizyt w localStorage
+
+### 5.4 Zarządzanie klientami (`/admin/clients`)
+
+**Funkcjonalności:**
+- Tabela klientów końcowych
+- Podgląd szczegółów
+- Placeholder do rozbudowy
+
+### 5.5 Zarządzanie promocjami (`/admin/promotions`)
+
+**Funkcjonalności:**
+- Tabela promocji z wyszukiwarką
+- Kolumny: nazwa, typ, przypisane produkty, rabat/bonus, okres, status
+- Typy promocji: produktowa / punktowa / informacyjna
+- Przypisane produkty wyświetlane jako badge'e
+- Drawer ze szczegółami promocji
+- Edycja i usuwanie promocji
+
+### 5.6 Role i uprawnienia (`/admin/roles`)
+
+**Zakładka Role:**
+- Lista ról systemowych (Administrator, Handlowiec)
+- Liczba uprawnień przypisanych do roli
+- Liczba użytkowników z daną rolą
+- Drawer ze szczegółami roli i listą uprawnień pogrupowanych tematycznie
+
+**Zakładka Użytkownicy:**
+- Lista użytkowników panelu administracyjnego
+- Kolumny: imię i nazwisko, email, rola, przypisani dystrybutorzy, status
+- Drawer ze szczegółami użytkownika
+- Lista przypisanych dystrybutorów (dla handlowców)
+- Uprawnienia wynikające z roli
+
+**Uprawnienia systemowe:**
+| Kategoria | Uprawnienia |
+|-----------|-------------|
+| Produkty | podgląd, edycja, usuwanie |
+| Dystrybutorzy | podgląd, podgląd własnych, edycja, usuwanie |
+| Klienci | podgląd, podgląd własnych, edycja, usuwanie |
+| Promocje | podgląd, edycja, usuwanie |
+| Sprzedaż | podgląd, podgląd własnych |
+| Ustawienia | podgląd, edycja |
+| Użytkownicy | podgląd, edycja, usuwanie |
+| Role | podgląd, edycja |
+
+**Różnice między rolami:**
+| Funkcja | Administrator | Handlowiec |
+|---------|---------------|------------|
+| Wszystkie dane | Tak | Tylko przypisani dystrybutorzy |
+| Edycja produktów | Tak | Nie |
+| Zarządzanie promocjami | Tak | Tylko podgląd |
+| Zarządzanie użytkownikami | Tak | Nie |
+| Dodawanie wizyt | Tak | Tak (u swoich dystrybutorów) |
+
+### 5.7 Sprzedaż (`/admin/sales`)
+- Placeholder do rozbudowy
+- Dashboard z wykresami sprzedaży
+
+### 5.8 Ustawienia (`/admin/settings`)
+- Placeholder do rozbudowy
+- Konfiguracja systemu
+
+---
+
+## 6. Model danych
+
+### 6.1 Dystrybutor (Distributor)
 ```typescript
 interface Distributor {
   id: string
@@ -211,16 +399,16 @@ interface Distributor {
   address: string
   phone: string
   email: string
-  distributorCode: string // z Comarcha - readonly
-  baseDiscount: number // 0-3%
-  programDiscount: number // dodatkowy rabat z programu
+  distributorCode: string
+  baseDiscount: number
+  programDiscount: number
   consultant: Consultant
   registeredClientsCount: number
   activeClientsCount: number
 }
 ```
 
-### 4.2 Konsultant (Consultant)
+### 6.2 Konsultant (Consultant)
 ```typescript
 interface Consultant {
   id: string
@@ -231,7 +419,7 @@ interface Consultant {
 }
 ```
 
-### 4.3 Klient końcowy (Client)
+### 6.3 Klient końcowy (Client)
 ```typescript
 interface Client {
   id: string
@@ -247,7 +435,23 @@ interface Client {
 }
 ```
 
-### 4.4 Promocja (Promotion)
+### 6.4 Produkt (Product)
+```typescript
+interface Product {
+  id: string
+  name: string
+  description: string
+  category: "premium" | "standard" | "bio" | "starter"
+  price: number
+  weight: string
+  proteinContent: string
+  imageUrl: string
+  inStock: boolean
+  features: string[]
+}
+```
+
+### 6.5 Promocja (Promotion)
 ```typescript
 interface Promotion {
   id: string
@@ -258,12 +462,14 @@ interface Promotion {
   startDate: string
   endDate: string
   type: "product" | "points" | "info"
-  multiplier?: number // np. 2 dla x2 punkty
-  discountBonus?: number // dodatkowy % rabatu
+  multiplier?: number
+  discountBonus?: number
+  assignedProductIds: string[]
+  isActive: boolean
 }
 ```
 
-### 4.5 Faktura (Invoice)
+### 6.6 Faktura (Invoice)
 ```typescript
 interface Invoice {
   id: string
@@ -278,7 +484,69 @@ interface Invoice {
 }
 ```
 
-### 4.6 Progi rabatowe
+### 6.7 Role i użytkownicy
+```typescript
+type UserRole = "admin" | "salesperson"
+
+interface Role {
+  id: string
+  name: string
+  displayName: string
+  description: string
+  permissions: string[]
+}
+
+interface AdminUser {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  role: UserRole
+  assignedDistributorIds: string[]
+  isActive: boolean
+  createdAt: string
+}
+```
+
+### 6.8 Wizyta (Visit)
+```typescript
+interface Visit {
+  id: string
+  distributorId: string
+  salespersonId: string
+  date: string
+  note: string
+  createdAt: string
+}
+```
+
+### 6.9 Nagroda i wymiana (Reward, Redemption)
+```typescript
+interface Reward {
+  id: string
+  name: string
+  description: string
+  pointsCost: number
+  imageUrl: string
+  category: "gadget" | "voucher" | "product" | "experience"
+  pickupType: "distributor" | "soymax" | "delivery"
+  inStock: boolean
+}
+
+interface Redemption {
+  id: string
+  clientId: string
+  rewardId: string
+  rewardName: string
+  pointsSpent: number
+  status: "pending" | "ready" | "collected"
+  redeemedAt: string
+  pickupType: "distributor" | "soymax" | "delivery"
+}
+```
+
+### 6.10 Progi rabatowe
 ```typescript
 const DISCOUNT_THRESHOLDS = [
   { minClients: 0, discount: 0 },
@@ -290,50 +558,52 @@ const DISCOUNT_THRESHOLDS = [
 
 ---
 
-## 5. Integracje zewnętrzne
+## 7. Integracje zewnętrzne
 
 | System | Cel | Priorytet |
 |--------|-----|-----------|
 | **Comarch ERP** | Faktury, zamówienia, dane dystrybutorów | Wysoki |
 | **SMS Gateway** | Wysyłka linków aktywacyjnych SMS | Wysoki |
 | **Email Service** | Wysyłka linków aktywacyjnych email | Wysoki |
-| **Push Notifications** | Powiadomienia o promocjach | Średni |
+| **Push Notifications** | Powiadomienia o promocjach, nagrodach | Średni |
 | **Analytics** | Śledzenie użycia aplikacji | Niski |
 
 ---
 
-## 6. Wymagania niefunkcjonalne
+## 8. Wymagania niefunkcjonalne
 
-### 6.1 Wydajność
+### 8.1 Wydajność
 - Czas ładowania strony: < 3s
 - Czas odpowiedzi API: < 500ms
 - Obsługa offline (PWA cache)
 
-### 6.2 Bezpieczeństwo
+### 8.2 Bezpieczeństwo
 - HTTPS obligatoryjne
 - Autoryzacja JWT/OAuth2
 - Walidacja danych wejściowych
 - CORS policy
+- Row Level Security dla danych użytkowników
 
-### 6.3 Dostępność
+### 8.3 Dostępność
 - WCAG 2.1 AA
 - Obsługa screen readerów
 - Minimum kontrast 4.5:1
 
-### 6.4 Responsywność
-- Mobile-first (320px+)
+### 8.4 Responsywność
+- Mobile-first (320px+) - aplikacja dystrybutora i klienta
 - Tablet (768px+)
-- Desktop (1024px+)
+- Desktop (1024px+) - panel administracyjny
 
 ---
 
-## 7. Stack technologiczny (rekomendowany)
+## 9. Stack technologiczny (rekomendowany)
 
 ### Frontend
 - **Framework:** Next.js 15 (App Router)
 - **UI:** shadcn/ui + Tailwind CSS
 - **State:** React hooks + localStorage (POC) / Zustand/SWR (prod)
 - **Forms:** React Hook Form + Zod
+- **QR Code:** qrcode.react
 
 ### Backend
 - **API:** Next.js API Routes / Node.js
@@ -348,7 +618,7 @@ const DISCOUNT_THRESHOLDS = [
 
 ---
 
-## 8. Zakres POC vs Produkcja
+## 10. Zakres POC vs Produkcja
 
 | Funkcjonalność | POC | Produkcja |
 |----------------|-----|-----------|
@@ -360,60 +630,84 @@ const DISCOUNT_THRESHOLDS = [
 | Ranking | Brak | Pełna implementacja |
 | Profil | Brak | Pełna edycja |
 | Push notifications | Brak | FCM / OneSignal |
+| Role i uprawnienia | localStorage | Baza + middleware |
+| Wizyty handlowców | localStorage | Baza + kalendarz |
+| System nagród | localStorage | Baza + integracja magazyn |
 
 ---
 
-## 9. Harmonogram sugerowany
+## 11. Harmonogram sugerowany
 
 | Faza | Zakres | Czas |
 |------|--------|------|
 | **Faza 1** | Backend API (auth, CRUD) | 2-3 tyg |
 | **Faza 2** | Integracja Comarch (faktury, dystrybutorzy) | 2-3 tyg |
-| **Faza 3** | SMS/Email gateway | 1 tyg |
-| **Faza 4** | Panel admina (promocje, konsultanci) | 2-3 tyg |
-| **Faza 5** | Testy, poprawki, deploy | 1-2 tyg |
+| **Faza 3** | SMS/Email gateway + powiadomienia | 1-2 tyg |
+| **Faza 4** | Panel admina (produkty, promocje, role) | 2-3 tyg |
+| **Faza 5** | Aplikacja klienta końcowego (nagrody) | 1-2 tyg |
+| **Faza 6** | Testy, poprawki, deploy | 1-2 tyg |
 
-**Szacowany czas całkowity:** 8-12 tygodni
+**Szacowany czas całkowity:** 10-15 tygodni
 
 ---
 
-## 10. Pliki projektu POC
+## 12. Pliki projektu POC
 
 ### Struktura
 ```
 app/
-├── page.tsx                         # Logowanie
-├── layout.tsx                       # Root layout
-├── globals.css                      # Style globalne
+├── page.tsx                              # Logowanie
+├── layout.tsx                            # Root layout
+├── globals.css                           # Style globalne
 ├── (app)/
-│   ├── layout.tsx                   # Layout z nawigacją
-│   ├── dashboard/page.tsx           # Dashboard
+│   ├── layout.tsx                        # Layout z nawigacją
+│   ├── dashboard/page.tsx                # Dashboard
 │   ├── clients/
-│   │   ├── page.tsx                 # Lista klientów
-│   │   └── register/page.tsx        # Rejestracja klienta
-│   ├── invoices/page.tsx            # Faktury
-│   └── promotions/[id]/page.tsx     # Szczegóły promocji
+│   │   ├── page.tsx                      # Lista klientów
+│   │   └── register/page.tsx             # Rejestracja klienta
+│   ├── invoices/page.tsx                 # Faktury
+│   ├── products/page.tsx                 # Katalog produktów
+│   ├── promotions/[id]/page.tsx          # Szczegóły promocji
+│   └── customer-account/page.tsx         # Konto klienta końcowego
+├── (admin)/admin/
+│   ├── layout.tsx                        # Layout panelu admin
+│   ├── page.tsx                          # Redirect do produktów
+│   ├── products/page.tsx                 # Zarządzanie produktami
+│   ├── distributors/page.tsx             # Zarządzanie dystrybutorami
+│   ├── clients/page.tsx                  # Zarządzanie klientami
+│   ├── promotions/page.tsx               # Zarządzanie promocjami
+│   ├── sales/page.tsx                    # Raporty sprzedaży
+│   ├── roles/page.tsx                    # Role i uprawnienia
+│   └── settings/page.tsx                 # Ustawienia
 
 components/
-├── bottom-nav.tsx                   # Nawigacja dolna
-├── discount-card.tsx                # Karta rabatu
-├── client-card.tsx                  # Karta klienta
-├── consultant-card.tsx              # Dane konsultanta
-├── quick-actions.tsx                # Szybkie akcje
-├── promotion-carousel.tsx           # Karuzelka promocji
-├── stats-summary.tsx                # Statystyki
-├── invoices-list.tsx                # Lista faktur
+├── bottom-nav.tsx                        # Nawigacja dolna
+├── discount-card.tsx                     # Karta rabatu
+├── client-card.tsx                       # Karta klienta
+├── consultant-card.tsx                   # Dane konsultanta
+├── quick-actions.tsx                     # Szybkie akcje
+├── promotion-carousel.tsx                # Karuzelka promocji
+├── stats-summary.tsx                     # Statystyki
+├── invoices-list.tsx                     # Lista faktur
+├── products-catalog.tsx                  # Katalog produktów
+├── product-card.tsx                      # Karta produktu
+├── admin/
+│   ├── admin-sidebar.tsx                 # Menu boczne admina
+│   ├── products-table.tsx                # Tabela produktów
+│   ├── distributors-table.tsx            # Tabela dystrybutorów (z wizytami)
+│   ├── promotions-table.tsx              # Tabela promocji
+│   └── roles-table.tsx                   # Tabela ról i użytkowników
 
 lib/
-├── types.ts                         # Definicje TypeScript
-├── mock-data.ts                     # Dane mockowe
-├── storage.ts                       # Obsługa localStorage
+├── types.ts                              # Definicje TypeScript
+├── mock-data.ts                          # Dane mockowe
+├── storage.ts                            # Obsługa localStorage
 ```
 
 ---
 
-## 11. Kontakt
+## 13. Kontakt
 
 **Projekt:** SOYMAX - Aplikacja Lojalnościowa  
-**Wersja dokumentu:** 1.0  
+**Wersja dokumentu:** 2.0  
 **Data:** Styczeń 2026
