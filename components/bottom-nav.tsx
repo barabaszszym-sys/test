@@ -18,6 +18,7 @@ const moreItems = [
   { href: "/ranking", label: "Ranking" },
   { href: "/help", label: "Pomoc" },
   { href: "/admin", label: "Panel Admin" },
+  { href: "/customer-account", label: "Konto klienta" },
 ]
 
 export function BottomNav() {

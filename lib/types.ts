@@ -143,6 +143,30 @@ export interface Visit {
   createdAt: string
 }
 
+// Nagroda do wymiany za punkty
+export interface Reward {
+  id: string
+  name: string
+  description: string
+  pointsCost: number
+  imageUrl: string
+  category: "gadget" | "voucher" | "product" | "experience"
+  pickupType: "distributor" | "soymax" | "delivery"
+  inStock: boolean
+}
+
+// Wymiana nagrody przez klienta
+export interface Redemption {
+  id: string
+  clientId: string
+  rewardId: string
+  rewardName: string
+  pointsSpent: number
+  status: "pending" | "ready" | "collected"
+  redeemedAt: string
+  pickupType: "distributor" | "soymax" | "delivery"
+}
+
 // Lista wszystkich uprawnień w systemie
 export const ALL_PERMISSIONS: Permission[] = [
   { id: "products.view", name: "Produkty - podgląd", description: "Przeglądanie listy produktów" },

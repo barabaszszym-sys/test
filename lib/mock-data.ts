@@ -1,4 +1,4 @@
-import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit } from "./types"
+import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit, Reward, Redemption } from "./types"
 
 export const mockConsultant = {
   id: "cons-1",
@@ -713,3 +713,122 @@ export const mockVisits: Visit[] = [
     createdAt: "2026-01-05T09:30:00",
   },
 ]
+
+// Nagrody do wymiany za punkty
+export const mockRewards: Reward[] = [
+  {
+    id: "reward-1",
+    name: "Czapka SOYMAX",
+    description: "Stylowa czapka z logo SOYMAX. Idealna na pole i do codziennego użytku.",
+    pointsCost: 500,
+    imageUrl: "/reward-cap.jpg",
+    category: "gadget",
+    pickupType: "distributor",
+    inStock: true,
+  },
+  {
+    id: "reward-2",
+    name: "Kurtka robocza SOYMAX",
+    description: "Wytrzymała kurtka robocza z oddychającego materiału. Rozmiary S-XXL.",
+    pointsCost: 2500,
+    imageUrl: "/reward-jacket.jpg",
+    category: "gadget",
+    pickupType: "soymax",
+    inStock: true,
+  },
+  {
+    id: "reward-3",
+    name: "Voucher 100 PLN",
+    description: "Voucher na zakupy produktów SOYMAX o wartości 100 PLN.",
+    pointsCost: 1000,
+    imageUrl: "/reward-voucher-100.jpg",
+    category: "voucher",
+    pickupType: "distributor",
+    inStock: true,
+  },
+  {
+    id: "reward-4",
+    name: "Voucher 250 PLN",
+    description: "Voucher na zakupy produktów SOYMAX o wartości 250 PLN.",
+    pointsCost: 2000,
+    imageUrl: "/reward-voucher-250.jpg",
+    category: "voucher",
+    pickupType: "distributor",
+    inStock: true,
+  },
+  {
+    id: "reward-5",
+    name: "Próbka paszy Premium 5kg",
+    description: "Darmowa próbka paszy SOYMAX Premium 5kg do przetestowania.",
+    pointsCost: 300,
+    imageUrl: "/reward-sample.jpg",
+    category: "product",
+    pickupType: "distributor",
+    inStock: true,
+  },
+  {
+    id: "reward-6",
+    name: "Termos SOYMAX 1L",
+    description: "Wysokiej jakości termos stalowy z logo SOYMAX. Utrzymuje temperaturę do 12h.",
+    pointsCost: 800,
+    imageUrl: "/reward-thermos.jpg",
+    category: "gadget",
+    pickupType: "distributor",
+    inStock: true,
+  },
+  {
+    id: "reward-7",
+    name: "Szkolenie online",
+    description: "Dostęp do profesjonalnego szkolenia online z zakresu żywienia zwierząt.",
+    pointsCost: 1500,
+    imageUrl: "/reward-training.jpg",
+    category: "experience",
+    pickupType: "soymax",
+    inStock: true,
+  },
+  {
+    id: "reward-8",
+    name: "Zestaw narzędzi ogrodowych",
+    description: "Profesjonalny zestaw narzędzi ogrodowych w walizce SOYMAX.",
+    pointsCost: 3500,
+    imageUrl: "/reward-tools.jpg",
+    category: "gadget",
+    pickupType: "soymax",
+    inStock: false,
+  },
+]
+
+// Przykładowe wymienione nagrody klienta
+export const mockRedemptions: Redemption[] = [
+  {
+    id: "redemption-1",
+    clientId: "client-1",
+    rewardId: "reward-1",
+    rewardName: "Czapka SOYMAX",
+    pointsSpent: 500,
+    status: "collected",
+    redeemedAt: "2025-11-15T10:30:00",
+    pickupType: "distributor",
+  },
+  {
+    id: "redemption-2",
+    clientId: "client-1",
+    rewardId: "reward-3",
+    rewardName: "Voucher 100 PLN",
+    pointsSpent: 1000,
+    status: "ready",
+    redeemedAt: "2026-01-10T14:00:00",
+    pickupType: "distributor",
+  },
+]
+
+// Dane klienta końcowego (dla widoku konta klienta)
+export const mockEndCustomer = {
+  id: "client-1",
+  firstName: "Jan",
+  lastName: "Nowak",
+  phone: "+48 600 111 222",
+  email: "jan.nowak@gmail.com",
+  points: 1250,
+  customerCode: "CUST-2024-00142",
+}
