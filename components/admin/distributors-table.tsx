@@ -1,27 +1,37 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Edit, Trash2, Store, Phone, Mail, MapPin, User } from "lucide-react"
+import { Search, Plus, Edit, Trash2, Store, Phone, Mail, MapPin, User, Calendar, Clock, MessageSquare } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getFromStorage, saveToStorage } from "@/lib/storage"
-import { mockDistributorsList } from "@/lib/mock-data"
-import type { Distributor } from "@/lib/types"
+import { mockDistributorsList, mockVisits, mockAdminUsers } from "@/lib/mock-data"
+import type { Distributor, Visit } from "@/lib/types"
 
 export function DistributorsTable() {
   const [distributors, setDistributors] = useState<Distributor[]>(() => {
     const stored = getFromStorage<Distributor[]>("admin_distributors")
     return stored || mockDistributorsList
   })
+  const [visits, setVisits] = useState<Visit[]>(() => {
+    const stored = getFromStorage<Visit[]>("admin_visits")
+    return stored || mockVisits
+  })
   const [search, setSearch] = useState("")
   const [selectedDistributor, setSelectedDistributor] = useState<Distributor | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState<Partial<Distributor>>({})
+  const [isAddingVisit, setIsAddingVisit] = useState(false)
+  const [newVisitNote, setNewVisitNote] = useState("")
+  const [newVisitDate, setNewVisitDate] = useState(new Date().toISOString().split("T")[0])
 
   const filteredDistributors = distributors.filter(
     (distributor) =>
@@ -63,6 +73,37 @@ export function DistributorsTable() {
 
   const getTotalDiscount = (distributor: Distributor) => {
     return distributor.baseDiscount + distributor.programDiscount
+  }
+
+  const getDistributorVisits = (distributorId: string) => {
+    return visits
+      .filter((v) => v.distributorId === distributorId)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  }
+
+  const getSalespersonName = (salespersonId: string) => {
+    const user = mockAdminUsers.find((u) => u.id === salespersonId)
+    return user ? `${user.firstName} ${user.lastName}` : "Nieznany"
+  }
+
+  const handleAddVisit = () => {
+    if (!selectedDistributor || !newVisitNote.trim()) return
+
+    const newVisit: Visit = {
+      id: `visit-${Date.now()}`,
+      distributorId: selectedDistributor.id,
+      salespersonId: "user-2", // W produkcji: ID zalogowanego handlowca
+      date: newVisitDate,
+      note: newVisitNote.trim(),
+      createdAt: new Date().toISOString(),
+    }
+
+    const updatedVisits = [...visits, newVisit]
+    setVisits(updatedVisits)
+    saveToStorage("admin_visits", updatedVisits)
+    setNewVisitNote("")
+    setNewVisitDate(new Date().toISOString().split("T")[0])
+    setIsAddingVisit(false)
   }
 
   return (
@@ -164,9 +205,9 @@ export function DistributorsTable() {
           </SheetHeader>
 
           {selectedDistributor && (
-            <div className="mt-6 space-y-6">
+            <div className="mt-6">
               {isEditing ? (
-                <>
+                <div className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="companyName">Nazwa firmy</Label>
                     <Input
@@ -234,74 +275,196 @@ export function DistributorsTable() {
                       />
                     </div>
                   </div>
-                </>
+                </div>
               ) : (
-                <>
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-muted">
-                      <Store className="h-8 w-8 text-muted-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{selectedDistributor.companyName}</h3>
-                      <p className="text-sm text-muted-foreground">Kod: {selectedDistributor.distributorCode}</p>
-                    </div>
-                  </div>
+                <Tabs defaultValue="info" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="info">Informacje</TabsTrigger>
+                    <TabsTrigger value="visits">
+                      Wizyty ({getDistributorVisits(selectedDistributor.id).length})
+                    </TabsTrigger>
+                  </TabsList>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-sm">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span>{selectedDistributor.address}</span>
+                  <TabsContent value="info" className="mt-4 space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-muted">
+                        <Store className="h-8 w-8 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold">{selectedDistributor.companyName}</h3>
+                        <p className="text-sm text-muted-foreground">Kod: {selectedDistributor.distributorCode}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span>{selectedDistributor.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>{selectedDistributor.email}</span>
-                    </div>
-                  </div>
 
-                  <div className="rounded-lg border border-border p-4 space-y-2">
-                    <p className="text-xs text-muted-foreground uppercase font-medium">NIP</p>
-                    <p className="font-mono text-lg">{selectedDistributor.nip}</p>
-                  </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 text-sm">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span>{selectedDistributor.address}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm">
+                        <Phone className="h-4 w-4 text-muted-foreground" />
+                        <span>{selectedDistributor.phone}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm">
+                        <Mail className="h-4 w-4 text-muted-foreground" />
+                        <span>{selectedDistributor.email}</span>
+                      </div>
+                    </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="rounded-lg bg-muted p-3">
-                      <p className="text-xs text-muted-foreground">Rabat podstawowy</p>
-                      <p className="text-lg font-semibold">{selectedDistributor.baseDiscount}%</p>
+                    <div className="rounded-lg border border-border p-4 space-y-2">
+                      <p className="text-xs text-muted-foreground uppercase font-medium">NIP</p>
+                      <p className="font-mono text-lg">{selectedDistributor.nip}</p>
                     </div>
-                    <div className="rounded-lg bg-muted p-3">
-                      <p className="text-xs text-muted-foreground">Rabat z programu</p>
-                      <p className="text-lg font-semibold">{selectedDistributor.programDiscount}%</p>
-                    </div>
-                    <div className="rounded-lg bg-orange-100 p-3">
-                      <p className="text-xs text-orange-800">Łączny rabat</p>
-                      <p className="text-lg font-semibold text-orange-800">{getTotalDiscount(selectedDistributor)}%</p>
-                    </div>
-                    <div className="rounded-lg bg-muted p-3">
-                      <p className="text-xs text-muted-foreground">Aktywni klienci</p>
-                      <p className="text-lg font-semibold">
-                        {selectedDistributor.activeClientsCount}/{selectedDistributor.registeredClientsCount}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="rounded-lg border border-border p-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <User className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-sm font-medium">Opiekun klienta</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-lg bg-muted p-3">
+                        <p className="text-xs text-muted-foreground">Rabat podstawowy</p>
+                        <p className="text-lg font-semibold">{selectedDistributor.baseDiscount}%</p>
+                      </div>
+                      <div className="rounded-lg bg-muted p-3">
+                        <p className="text-xs text-muted-foreground">Rabat z programu</p>
+                        <p className="text-lg font-semibold">{selectedDistributor.programDiscount}%</p>
+                      </div>
+                      <div className="rounded-lg bg-orange-100 p-3">
+                        <p className="text-xs text-orange-800">Łączny rabat</p>
+                        <p className="text-lg font-semibold text-orange-800">{getTotalDiscount(selectedDistributor)}%</p>
+                      </div>
+                      <div className="rounded-lg bg-muted p-3">
+                        <p className="text-xs text-muted-foreground">Aktywni klienci</p>
+                        <p className="text-lg font-semibold">
+                          {selectedDistributor.activeClientsCount}/{selectedDistributor.registeredClientsCount}
+                        </p>
+                      </div>
                     </div>
+
+                    <div className="rounded-lg border border-border p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <User className="h-4 w-4 text-muted-foreground" />
+                        <p className="text-sm font-medium">Opiekun klienta</p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">
+                          {selectedDistributor.consultant.firstName} {selectedDistributor.consultant.lastName}
+                        </p>
+                        <p className="text-sm text-muted-foreground">{selectedDistributor.consultant.phone}</p>
+                        <p className="text-sm text-muted-foreground">{selectedDistributor.consultant.email}</p>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="visits" className="mt-4 space-y-4">
+                    {/* Add Visit Form */}
+                    {isAddingVisit ? (
+                      <Card>
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-base">Nowa wizyta</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="visitDate">Data wizyty</Label>
+                            <Input
+                              id="visitDate"
+                              type="date"
+                              value={newVisitDate}
+                              onChange={(e) => setNewVisitDate(e.target.value)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="visitNote">Notatka</Label>
+                            <Textarea
+                              id="visitNote"
+                              placeholder="Opisz przebieg wizyty..."
+                              value={newVisitNote}
+                              onChange={(e) => setNewVisitNote(e.target.value)}
+                              rows={3}
+                            />
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1 bg-transparent"
+                              onClick={() => {
+                                setIsAddingVisit(false)
+                                setNewVisitNote("")
+                              }}
+                            >
+                              Anuluj
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="flex-1"
+                              onClick={handleAddVisit}
+                              disabled={!newVisitNote.trim()}
+                            >
+                              Zapisz wizytę
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        className="w-full bg-transparent"
+                        onClick={() => setIsAddingVisit(true)}
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Dodaj wizytę
+                      </Button>
+                    )}
+
+                    {/* Visits Timeline */}
                     <div className="space-y-1">
-                      <p className="font-medium">
-                        {selectedDistributor.consultant.firstName} {selectedDistributor.consultant.lastName}
-                      </p>
-                      <p className="text-sm text-muted-foreground">{selectedDistributor.consultant.phone}</p>
-                      <p className="text-sm text-muted-foreground">{selectedDistributor.consultant.email}</p>
+                      {getDistributorVisits(selectedDistributor.id).length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                          <p>Brak zarejestrowanych wizyt</p>
+                          <p className="text-sm">Dodaj pierwszą wizytę u tego dystrybutora</p>
+                        </div>
+                      ) : (
+                        <div className="relative">
+                          {/* Timeline line */}
+                          <div className="absolute left-4 top-2 bottom-2 w-px bg-border" />
+                          
+                          {getDistributorVisits(selectedDistributor.id).map((visit, index) => (
+                            <div key={visit.id} className="relative pl-10 pb-6 last:pb-0">
+                              {/* Timeline dot */}
+                              <div className="absolute left-2.5 top-1.5 h-3 w-3 rounded-full border-2 border-primary bg-background" />
+                              
+                              <div className="rounded-lg border border-border p-3 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2 text-sm">
+                                    <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                                    <span className="font-medium">
+                                      {new Date(visit.date).toLocaleDateString("pl-PL", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                      })}
+                                    </span>
+                                  </div>
+                                  <Badge variant="secondary" className="text-xs">
+                                    {getSalespersonName(visit.salespersonId)}
+                                  </Badge>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                  <MessageSquare className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+                                  <p className="text-sm text-muted-foreground">{visit.note}</p>
+                                </div>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Clock className="h-3 w-3" />
+                                  <span>
+                                    Dodano: {new Date(visit.createdAt).toLocaleString("pl-PL")}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </>
+                  </TabsContent>
+                </Tabs>
               )}
             </div>
           )}

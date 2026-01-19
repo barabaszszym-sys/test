@@ -1,4 +1,4 @@
-import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser } from "./types"
+import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit } from "./types"
 
 export const mockConsultant = {
   id: "cons-1",
@@ -643,5 +643,73 @@ export const mockDistributorsList: Distributor[] = [
     consultant: mockConsultant,
     registeredClientsCount: 41,
     activeClientsCount: 35,
+  },
+]
+
+// Wizyty handlowców u dystrybutorów
+export const mockVisits: Visit[] = [
+  {
+    id: "visit-1",
+    distributorId: "dist-1",
+    salespersonId: "user-2",
+    date: "2026-01-15",
+    note: "Omówienie nowej oferty produktowej na Q1. Klient zainteresowany paszą Premium Plus.",
+    createdAt: "2026-01-15T10:30:00",
+  },
+  {
+    id: "visit-2",
+    distributorId: "dist-1",
+    salespersonId: "user-2",
+    date: "2025-12-20",
+    note: "Podsumowanie roku 2025. Ustalenie celów sprzedażowych na 2026.",
+    createdAt: "2025-12-20T14:00:00",
+  },
+  {
+    id: "visit-3",
+    distributorId: "dist-2",
+    salespersonId: "user-2",
+    date: "2026-01-10",
+    note: "Prezentacja nowej promocji zimowej. Klient zamówił dodatkową partię paszy Bio.",
+    createdAt: "2026-01-10T09:15:00",
+  },
+  {
+    id: "visit-4",
+    distributorId: "dist-3",
+    salespersonId: "user-3",
+    date: "2026-01-12",
+    note: "Rozwiązanie reklamacji z poprzedniego miesiąca. Klient zadowolony z szybkiej reakcji.",
+    createdAt: "2026-01-12T11:00:00",
+  },
+  {
+    id: "visit-5",
+    distributorId: "dist-3",
+    salespersonId: "user-3",
+    date: "2025-11-28",
+    note: "Szkolenie z nowego systemu zamówień online.",
+    createdAt: "2025-11-28T13:30:00",
+  },
+  {
+    id: "visit-6",
+    distributorId: "dist-4",
+    salespersonId: "user-3",
+    date: "2026-01-08",
+    note: "Wizyta kontrolna. Sprawdzenie stanów magazynowych i omówienie potrzeb na luty.",
+    createdAt: "2026-01-08T10:00:00",
+  },
+  {
+    id: "visit-7",
+    distributorId: "dist-6",
+    salespersonId: "user-4",
+    date: "2026-01-14",
+    note: "Negocjacje warunków współpracy na 2026. Ustalono nowy próg rabatowy.",
+    createdAt: "2026-01-14T15:00:00",
+  },
+  {
+    id: "visit-8",
+    distributorId: "dist-7",
+    salespersonId: "user-4",
+    date: "2026-01-05",
+    note: "Pierwsza wizyta po świętach. Klient planuje zwiększenie zamówień o 20%.",
+    createdAt: "2026-01-05T09:30:00",
   },
 ]

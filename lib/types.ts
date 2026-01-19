@@ -133,6 +133,16 @@ export interface AdminUser {
   createdAt: string
 }
 
+// Wizyta handlowca u dystrybutora
+export interface Visit {
+  id: string
+  distributorId: string
+  salespersonId: string
+  date: string
+  note: string
+  createdAt: string
+}
+
 // Lista wszystkich uprawnień w systemie
 export const ALL_PERMISSIONS: Permission[] = [
   { id: "products.view", name: "Produkty - podgląd", description: "Przeglądanie listy produktów" },
