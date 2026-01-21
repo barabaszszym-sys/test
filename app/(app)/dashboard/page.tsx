@@ -24,7 +24,7 @@ export default function DashboardPage() {
     setDistributor(getDistributor())
     setClients(getClients())
     setPromotions(getPromotions())
-  }, [router])
+  }, [])
 
   if (!distributor) {
     return (
