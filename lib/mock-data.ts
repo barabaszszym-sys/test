@@ -21,6 +21,9 @@ export const mockDistributor: Distributor = {
   consultant: mockConsultant,
   registeredClientsCount: 18,
   activeClientsCount: 15,
+  ownerFirstName: "Krzysztof",
+  ownerLastName: "Malinowski",
+  createdAt: "2024-03-15",
 }
 
 export const mockClients: Client[] = [

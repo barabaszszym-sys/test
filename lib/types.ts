@@ -21,6 +21,10 @@ export interface Distributor {
   consultant: Consultant
   registeredClientsCount: number
   activeClientsCount: number
+  // Dane osobowe właściciela/reprezentanta
+  ownerFirstName: string
+  ownerLastName: string
+  createdAt: string // data dodania do aplikacji
 }
 
 export interface Client {
