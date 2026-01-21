@@ -15,8 +15,6 @@ const navItems = [
 
 const moreItems = [
   { href: "/profile", label: "Profil" },
-  { href: "/ranking", label: "Ranking" },
-  { href: "/help", label: "Pomoc" },
   { href: "/admin", label: "Panel Admin" },
   { href: "/customer-account", label: "Konto klienta" },
 ]
