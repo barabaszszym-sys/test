@@ -34,12 +34,12 @@ export function ProductsCatalog() {
       </div>
 
       <Tabs value={categoryFilter} onValueChange={setCategoryFilter}>
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="all">Wszystkie</TabsTrigger>
-          <TabsTrigger value="premium">Premium</TabsTrigger>
-          <TabsTrigger value="standard">Standard</TabsTrigger>
-          <TabsTrigger value="bio">Bio</TabsTrigger>
-          <TabsTrigger value="starter">Starter</TabsTrigger>
+        <TabsList className="flex w-full overflow-x-auto">
+          <TabsTrigger value="all" className="flex-1 text-xs px-2">Wszystkie</TabsTrigger>
+          <TabsTrigger value="premium" className="flex-1 text-xs px-2">Premium</TabsTrigger>
+          <TabsTrigger value="standard" className="flex-1 text-xs px-2">Standard</TabsTrigger>
+          <TabsTrigger value="bio" className="flex-1 text-xs px-2">Bio</TabsTrigger>
+          <TabsTrigger value="starter" className="flex-1 text-xs px-2">Starter</TabsTrigger>
         </TabsList>
       </Tabs>
 
