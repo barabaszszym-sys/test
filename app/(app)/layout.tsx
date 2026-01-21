@@ -6,7 +6,7 @@ import { MobileFrame } from "@/components/mobile-frame"
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <MobileFrame>
-      <div className="min-h-full pb-20">
+      <div className="flex-1 overflow-y-auto">
         {children}
       </div>
       <Suspense fallback={null}>

@@ -37,7 +37,7 @@ export function MobileFrame({ children }: MobileFrameProps) {
               </div>
               
               {/* App content */}
-              <div className="h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden relative">
+              <div className="h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden relative flex flex-col">
                 {children}
               </div>
             </div>
