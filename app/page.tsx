@@ -51,16 +51,6 @@ export default function LoginPage() {
     }, 300)
   }
 
-  // Auto-login na pierwszym otwarciu
-  useEffect(() => {
-    if (!getSession() && email && password) {
-      const timer = setTimeout(() => {
-        handleLogin()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [])
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-green-50 to-gray-50 p-4">
       <div className="mb-8 text-center">
