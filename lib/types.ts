@@ -1,5 +1,30 @@
 // Typy danych dla aplikacji SOYMAX
 
+// Autentykacja
+export interface User {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  role: "distributor" | "salesperson" | "admin" | "customer"
+  companyName?: string
+  companyId?: string
+  createdAt: string
+}
+
+export interface AuthSession {
+  token: string // JWT
+  refreshToken?: string
+  expiresAt: number // timestamp
+  user: User
+}
+
+export interface LoginRequest {
+  email: string
+  password: string
+  rememberMe?: boolean
+}
+
 export interface Consultant {
   id: string
   firstName: string

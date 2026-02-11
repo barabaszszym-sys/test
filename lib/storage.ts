@@ -1,5 +1,6 @@
 import type { Distributor, Client, Order, Promotion, RankingEntry } from "./types"
 import { mockDistributor, mockClients, mockOrders, mockPromotions, mockRanking } from "./mock-data"
+import { getSession, logout as authLogout } from "./auth"
 
 const STORAGE_KEYS = {
   DISTRIBUTOR: "soymax_distributor",
@@ -7,7 +8,6 @@ const STORAGE_KEYS = {
   ORDERS: "soymax_orders",
   PROMOTIONS: "soymax_promotions",
   RANKING: "soymax_ranking",
-  IS_LOGGED_IN: "soymax_is_logged_in",
 } as const
 
 // Helpers
@@ -27,21 +27,13 @@ function setItem<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-// Auth
+// Auth - sprawdzenie sesji JWT
 export function isLoggedIn(): boolean {
-  return getItem(STORAGE_KEYS.IS_LOGGED_IN, false)
-}
-
-export function login(): void {
-  setItem(STORAGE_KEYS.IS_LOGGED_IN, true)
-  // Initialize mock data on first login
-  if (!localStorage.getItem(STORAGE_KEYS.DISTRIBUTOR)) {
-    initializeMockData()
-  }
+  return !!getSession()
 }
 
 export function logout(): void {
-  setItem(STORAGE_KEYS.IS_LOGGED_IN, false)
+  authLogout()
 }
 
 // Initialize mock data

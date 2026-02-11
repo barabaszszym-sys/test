@@ -391,7 +391,7 @@ Panel do zarządzania treściami i użytkownikami systemu.
 ## 6. Model danych
 
 ### 6.1 Dystrybutor (Distributor)
-```typescript
+\`\`\`typescript
 interface Distributor {
   id: string
   companyName: string
@@ -406,10 +406,10 @@ interface Distributor {
   registeredClientsCount: number
   activeClientsCount: number
 }
-```
+\`\`\`
 
 ### 6.2 Konsultant (Consultant)
-```typescript
+\`\`\`typescript
 interface Consultant {
   id: string
   firstName: string
@@ -417,10 +417,10 @@ interface Consultant {
   phone: string
   email: string
 }
-```
+\`\`\`
 
 ### 6.3 Klient końcowy (Client)
-```typescript
+\`\`\`typescript
 interface Client {
   id: string
   firstName: string
@@ -433,10 +433,10 @@ interface Client {
   lastPurchaseDate: string | null
   distributorId: string
 }
-```
+\`\`\`
 
 ### 6.4 Produkt (Product)
-```typescript
+\`\`\`typescript
 interface Product {
   id: string
   name: string
@@ -449,10 +449,10 @@ interface Product {
   inStock: boolean
   features: string[]
 }
-```
+\`\`\`
 
 ### 6.5 Promocja (Promotion)
-```typescript
+\`\`\`typescript
 interface Promotion {
   id: string
   title: string
@@ -467,10 +467,10 @@ interface Promotion {
   assignedProductIds: string[]
   isActive: boolean
 }
-```
+\`\`\`
 
 ### 6.6 Faktura (Invoice)
-```typescript
+\`\`\`typescript
 interface Invoice {
   id: string
   invoiceNumber: string
@@ -482,10 +482,10 @@ interface Invoice {
   pdfUrl: string
   distributorId: string
 }
-```
+\`\`\`
 
 ### 6.7 Role i użytkownicy
-```typescript
+\`\`\`typescript
 type UserRole = "admin" | "salesperson"
 
 interface Role {
@@ -507,10 +507,10 @@ interface AdminUser {
   isActive: boolean
   createdAt: string
 }
-```
+\`\`\`
 
 ### 6.8 Wizyta (Visit)
-```typescript
+\`\`\`typescript
 interface Visit {
   id: string
   distributorId: string
@@ -519,10 +519,10 @@ interface Visit {
   note: string
   createdAt: string
 }
-```
+\`\`\`
 
 ### 6.9 Nagroda i wymiana (Reward, Redemption)
-```typescript
+\`\`\`typescript
 interface Reward {
   id: string
   name: string
@@ -544,17 +544,17 @@ interface Redemption {
   redeemedAt: string
   pickupType: "distributor" | "soymax" | "delivery"
 }
-```
+\`\`\`
 
 ### 6.10 Progi rabatowe
-```typescript
+\`\`\`typescript
 const DISCOUNT_THRESHOLDS = [
   { minClients: 0, discount: 0 },
   { minClients: 10, discount: 1 },
   { minClients: 25, discount: 2 },
   { minClients: 50, discount: 3 },
 ]
-```
+\`\`\`
 
 ---
 
@@ -654,7 +654,7 @@ const DISCOUNT_THRESHOLDS = [
 ## 12. Pliki projektu POC
 
 ### Struktura
-```
+\`\`\`
 app/
 ├── page.tsx                              # Logowanie
 ├── layout.tsx                            # Root layout
@@ -702,7 +702,7 @@ lib/
 ├── types.ts                              # Definicje TypeScript
 ├── mock-data.ts                          # Dane mockowe
 ├── storage.ts                            # Obsługa localStorage
-```
+\`\`\`
 
 ---
 
