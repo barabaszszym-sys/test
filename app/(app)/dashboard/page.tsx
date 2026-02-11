@@ -46,13 +46,10 @@ export default function DashboardPage() {
     <div className="space-y-6 p-4 pb-20">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Masz obecnie:</h1>
+          <h1 className="text-2xl font-bold">Cześć</h1>
           <p className="text-sm text-muted-foreground">{distributor.companyName}</p>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <div className="text-4xl font-bold text-primary">{distributor.points}</div>
-          <div className="text-xs text-muted-foreground">punktów</div>
-        </div>
+        
       </header>
 
       <DiscountCard currentClients={clients.length} programDiscount={distributor.programDiscount} />
