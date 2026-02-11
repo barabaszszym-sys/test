@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, UserCheck, UserX } from "lucide-react"
 
 interface StatsSummaryProps {
@@ -11,6 +11,9 @@ interface StatsSummaryProps {
 export function StatsSummary({ total, active, inactive, newThisMonth }: StatsSummaryProps) {
   return (
     <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base">Twoi klienci</CardTitle>
+      </CardHeader>
       <CardContent className="grid grid-cols-3 gap-4 p-4">
         <div className="flex flex-col items-center text-center">
           <Users className="mb-1 h-5 w-5 text-muted-foreground" />
