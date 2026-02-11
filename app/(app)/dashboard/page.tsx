@@ -7,6 +7,7 @@ import { StatsSummary } from "@/components/stats-summary"
 import { QuickActions } from "@/components/quick-actions"
 import { PromotionCarousel } from "@/components/promotion-carousel"
 import { ConsultantCard } from "@/components/consultant-card"
+import { DashboardNotification } from "@/components/dashboard-notification"
 import { getDistributor, getClients, getPromotions, isLoggedIn } from "@/lib/storage"
 import type { Distributor, Client, Promotion } from "@/lib/types"
 
@@ -44,6 +45,8 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 p-4 pb-20">
+      <DashboardNotification />
+
       <header className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Cześć</h1>
