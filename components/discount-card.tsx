@@ -67,7 +67,7 @@ export function DiscountCard({ currentClients, programDiscount }: DiscountCardPr
         <Card className="border-0 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] relative">
           <CardContent className="p-5">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold">Rabat specjalny</h2>
+              <h2 className="text-lg font-semibold">Twój rabat</h2>
               <ChevronRight className="h-5 w-5 opacity-70" />
             </div>
 
