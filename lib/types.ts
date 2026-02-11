@@ -197,6 +197,19 @@ export interface Redemption {
   pickupType: "distributor" | "soymax" | "delivery"
 }
 
+// Rabat dla dystrybutora
+export interface Discount {
+  id: string
+  name: string
+  code: string
+  description: string
+  type: "percentage" | "fixed" // procentowy lub kwotowy
+  value: number // % lub zł
+  minOrderValue?: number
+  expiryDate: string
+  active: boolean
+}
+
 // Lista wszystkich uprawnień w systemie
 export const ALL_PERMISSIONS: Permission[] = [
   { id: "products.view", name: "Produkty - podgląd", description: "Przeglądanie listy produktów" },

@@ -8,7 +8,9 @@ import { QuickActions } from "@/components/quick-actions"
 import { PromotionCarousel } from "@/components/promotion-carousel"
 import { ConsultantCard } from "@/components/consultant-card"
 import { DashboardNotification } from "@/components/dashboard-notification"
+import { DiscountsCarousel } from "@/components/discounts-carousel"
 import { getDistributor, getClients, getPromotions, isLoggedIn } from "@/lib/storage"
+import { mockDiscounts } from "@/lib/mock-data"
 import type { Distributor, Client, Promotion } from "@/lib/types"
 
 export default function DashboardPage() {
@@ -68,6 +70,8 @@ export default function DashboardPage() {
       />
 
       <QuickActions />
+
+      <DiscountsCarousel discounts={mockDiscounts} />
 
       <PromotionCarousel promotions={promotions} />
 

@@ -1,4 +1,4 @@
-import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit, Reward, Redemption } from "./types"
+import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit, Reward, Redemption, Discount } from "./types"
 
 export const mockConsultant = {
   id: "cons-1",
@@ -836,3 +836,59 @@ export const mockEndCustomer = {
   points: 1250,
   customerCode: "CUST-2024-00142",
 }
+
+// Rabaty dystrybutora
+export const mockDiscounts: Discount[] = [
+  {
+    id: "disc-1",
+    name: "Rabat 10%",
+    code: "SOYMAX10",
+    description: "10% rabatu na wszystkie zamówienia",
+    type: "percentage",
+    value: 10,
+    expiryDate: "2026-06-30",
+    active: true,
+  },
+  {
+    id: "disc-2",
+    name: "500 zł zniżki",
+    code: "SOYMAX500",
+    description: "Dodatkowe 500 zł na zamówienia powyżej 5000 zł",
+    type: "fixed",
+    value: 500,
+    minOrderValue: 5000,
+    expiryDate: "2026-04-30",
+    active: true,
+  },
+  {
+    id: "disc-3",
+    name: "Rabat 15%",
+    code: "PREMIUM15",
+    description: "15% rabatu dla klientów premium",
+    type: "percentage",
+    value: 15,
+    expiryDate: "2026-07-31",
+    active: true,
+  },
+  {
+    id: "disc-4",
+    name: "250 zł zniżki",
+    code: "SPRING250",
+    description: "Wiosenna promocja - 250 zł zniżki",
+    type: "fixed",
+    value: 250,
+    minOrderValue: 2000,
+    expiryDate: "2026-03-31",
+    active: true,
+  },
+  {
+    id: "disc-5",
+    name: "Rabat 5%",
+    code: "LOYAL5",
+    description: "Rabat lojalności 5% na każde zamówienie",
+    type: "percentage",
+    value: 5,
+    expiryDate: "2026-12-31",
+    active: true,
+  },
+]
