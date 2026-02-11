@@ -52,7 +52,7 @@ export default function DashboardPage() {
       </header>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Obecnie masz: {distributor.points} punktów</h2>
+        <h2 className="text-xl font-bold mb-4">Obecnie masz: {distributor.points || 0} punktów</h2>
       </div>
 
       <DiscountCard currentClients={clients.length} programDiscount={distributor.programDiscount} />
