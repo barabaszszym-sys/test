@@ -151,7 +151,7 @@ export function DiscountCard({ currentClients, programDiscount }: DiscountCardPr
 
           {/* Active promotions */}
           <div>
-            <h3 className="mb-3 font-semibold">Aktywne promocje z bonusami</h3>
+            <h3 className="mb-3 font-semibold">Aktywne promocje bonusowe</h3>
             {activePromotions.length === 0 ? (
               <p className="text-sm text-muted-foreground">Brak aktywnych promocji z bonusami</p>
             ) : (
