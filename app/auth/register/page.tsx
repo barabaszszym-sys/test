@@ -258,34 +258,8 @@ export default function RegisterPage() {
 
             {/* Miasto i Kod pocztowy */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="city">Miasto *</Label>
-                <Input
-                  id="city"
-                  type="text"
-                  name="city"
-                  placeholder="Warszawa"
-                  value={formData.city}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className={errors.city ? "border-red-500" : ""}
-                />
-                {errors.city && <p className="text-xs text-red-600">{errors.city}</p>}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="zipCode">Kod pocztowy *</Label>
-                <Input
-                  id="zipCode"
-                  type="text"
-                  name="zipCode"
-                  placeholder="00-001"
-                  value={formData.zipCode}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className={errors.zipCode ? "border-red-500" : ""}
-                />
-                {errors.zipCode && <p className="text-xs text-red-600">{errors.zipCode}</p>}
-              </div>
+              
+              
             </div>
 
             {/* Adres gospodarstwa (opcjonalne) */}
