@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const menuItems = [
+  { href: "/auth/register", label: "Rejestracja klienta" },
   { href: "/dashboard", label: "Aplikacja dystrybutora" },
   { href: "/admin", label: "Panel Admin" },
 ]
