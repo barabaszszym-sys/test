@@ -14,9 +14,9 @@ import { login, getSession } from "@/lib/auth"
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
+  const [email, setEmail] = useState("dist@soymax.pl")
+  const [password, setPassword] = useState("password123")
+  const [rememberMe, setRememberMe] = useState(true)
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -26,14 +26,16 @@ export default function LoginPage() {
     }
   }, [router])
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
     setError("")
     setIsLoading(true)
 
     const { session, error: loginError } = login({
-      email,
-      password,
+      email: email || "dist@soymax.pl",
+      password: password || "password123",
       rememberMe,
     })
 
@@ -48,6 +50,16 @@ export default function LoginPage() {
       router.replace("/dashboard")
     }, 300)
   }
+
+  // Auto-login na pierwszym otwarciu
+  useEffect(() => {
+    if (!getSession() && email && password) {
+      const timer = setTimeout(() => {
+        handleLogin()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-green-50 to-gray-50 p-4">
@@ -68,12 +80,11 @@ export default function LoginPage() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                type="email"
+                type="text"
                 placeholder="przyklad@soymax.pl"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
-                required
               />
             </div>
 
@@ -95,7 +106,6 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                required
               />
             </div>
 
