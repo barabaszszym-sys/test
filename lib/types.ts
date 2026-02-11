@@ -50,6 +50,7 @@ export interface Distributor {
   ownerFirstName: string
   ownerLastName: string
   createdAt: string // data dodania do aplikacji
+  points: number // punkty lojalnościowe dystrybutora
 }
 
 export interface Client {
