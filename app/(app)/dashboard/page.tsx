@@ -49,8 +49,11 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold">Cześć</h1>
           <p className="text-sm text-muted-foreground">{distributor.companyName}</p>
         </div>
-        
       </header>
+
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Obecnie masz: {distributor.points} punktów</h2>
+      </div>
 
       <DiscountCard currentClients={clients.length} programDiscount={distributor.programDiscount} />
 
