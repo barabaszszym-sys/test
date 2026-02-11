@@ -1,10 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Home, Users, FileText, Menu, Package } from "lucide-react"
+import { useRouter, usePathname } from "next/navigation"
+import { Home, Users, FileText, Menu, Package, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { logout } from "@/lib/auth"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -21,6 +22,12 @@ const moreItems = [
 
 export function BottomNav() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    logout()
+    router.push("/")
+  }
 
   return (
     <nav className="sticky bottom-0 z-50 border-t border-border bg-background rounded-b-[2.25rem] w-[320px] shrink-0">
@@ -62,6 +69,11 @@ export function BottomNav() {
                 <Link href={item.href}>{item.label}</Link>
               </DropdownMenuItem>
             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Wyloguj</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
