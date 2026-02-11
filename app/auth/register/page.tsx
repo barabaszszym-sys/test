@@ -26,7 +26,11 @@ export default function RegisterPage() {
     phone: "",
     city: "",
     zipCode: "",
-    farmAddress: "",
+    farmCity: "",
+    farmStreet: "",
+    farmNumber: "",
+    farmZipCode: "",
+    farmPostalCode: "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -285,17 +289,78 @@ export default function RegisterPage() {
             </div>
 
             {/* Adres gospodarstwa (opcjonalne) */}
-            <div className="space-y-2">
-              <Label htmlFor="farmAddress">Adres gospodarstwa (opcjonalne)</Label>
-              <Textarea
-                id="farmAddress"
-                name="farmAddress"
-                placeholder="np. ul. Polna 15, gmina Piaseczno"
-                value={formData.farmAddress}
-                onChange={handleChange}
-                disabled={isLoading}
-                rows={2}
-              />
+            <div className="space-y-4 pt-4 border-t">
+              <h3 className="font-semibold text-base">Adres gospodarstwa</h3>
+
+              {/* Miejscowość */}
+              <div className="space-y-2">
+                <Label htmlFor="farmCity">Miejscowość</Label>
+                <Input
+                  id="farmCity"
+                  type="text"
+                  name="farmCity"
+                  placeholder="np. Piaseczno"
+                  value={formData.farmCity}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Ulica i Numer */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="farmStreet">Ulica</Label>
+                  <Input
+                    id="farmStreet"
+                    type="text"
+                    name="farmStreet"
+                    placeholder="np. ul. Polna"
+                    value={formData.farmStreet}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="farmNumber">Numer</Label>
+                  <Input
+                    id="farmNumber"
+                    type="text"
+                    name="farmNumber"
+                    placeholder="np. 15"
+                    value={formData.farmNumber}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              {/* Kod pocztowy i Poczta */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="farmZipCode">Kod pocztowy</Label>
+                  <Input
+                    id="farmZipCode"
+                    type="text"
+                    name="farmZipCode"
+                    placeholder="00-001"
+                    value={formData.farmZipCode}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="farmPostalCode">Poczta</Label>
+                  <Input
+                    id="farmPostalCode"
+                    type="text"
+                    name="farmPostalCode"
+                    placeholder="np. Piaseczno"
+                    value={formData.farmPostalCode}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Przycisk submit */}
