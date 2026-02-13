@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const menuItems = [
+  { href: "/customer-account/profile", label: "Profil" },
+  { href: "/auth/customer-login", label: "Logowanie klienta" },
   { href: "/auth/register", label: "Rejestracja klienta" },
   { href: "/dashboard", label: "Aplikacja dystrybutora" },
   { href: "/admin", label: "Panel Admin" },

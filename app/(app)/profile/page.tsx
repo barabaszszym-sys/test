@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Building2, User, Mail, Phone, MapPin, Calendar, Hash, Edit, LogOut } from "lucide-react"
+import { ArrowLeft, Building2, User, Mail, Phone, MapPin, Calendar, Hash, Edit, LogOut, Lock, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 import { getDistributor, isLoggedIn, logout } from "@/lib/storage"
 import type { Distributor } from "@/lib/types"
@@ -12,6 +15,10 @@ import type { Distributor } from "@/lib/types"
 export default function ProfilePage() {
   const router = useRouter()
   const [distributor, setDistributor] = useState<Distributor | null>(null)
+  const [passwordSaved, setPasswordSaved] = useState(false)
+  const [notifEmail, setNotifEmail] = useState(true)
+  const [notifPush, setNotifPush] = useState(true)
+  const [notifSms, setNotifSms] = useState(false)
 
   useEffect(() => {
     if (!isLoggedIn()) {
@@ -185,6 +192,77 @@ export default function ProfilePage() {
                   <Phone className="h-4 w-4" />
                 </Button>
               </a>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Zmiana hasla */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Lock className="h-4 w-4 text-muted-foreground" />
+              Zmiana hasla
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="space-y-2">
+              <Label htmlFor="current-password" className="text-xs">Aktualne haslo</Label>
+              <Input id="current-password" type="password" placeholder="Aktualne haslo" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="new-password" className="text-xs">Nowe haslo</Label>
+              <Input id="new-password" type="password" placeholder="Nowe haslo" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password" className="text-xs">Powtorz nowe haslo</Label>
+              <Input id="confirm-password" type="password" placeholder="Powtorz nowe haslo" />
+            </div>
+            {passwordSaved && (
+              <p className="text-sm text-green-600 font-medium">Haslo zostalo zmienione.</p>
+            )}
+            <Button
+              className="w-full bg-green-600 hover:bg-green-700"
+              onClick={() => {
+                setPasswordSaved(true)
+                setTimeout(() => setPasswordSaved(false), 3000)
+              }}
+            >
+              Zmien haslo
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Powiadomienia */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Bell className="h-4 w-4 text-muted-foreground" />
+              Powiadomienia
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">Email</p>
+                <p className="text-xs text-muted-foreground">Powiadomienia na adres email</p>
+              </div>
+              <Switch checked={notifEmail} onCheckedChange={setNotifEmail} />
+            </div>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">Push</p>
+                <p className="text-xs text-muted-foreground">Powiadomienia push w przegladarce</p>
+              </div>
+              <Switch checked={notifPush} onCheckedChange={setNotifPush} />
+            </div>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">SMS</p>
+                <p className="text-xs text-muted-foreground">Powiadomienia SMS na telefon</p>
+              </div>
+              <Switch checked={notifSms} onCheckedChange={setNotifSms} />
             </div>
           </CardContent>
         </Card>

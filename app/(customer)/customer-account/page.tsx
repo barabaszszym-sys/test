@@ -22,7 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { mockEndCustomer, mockRewards, mockRedemptions } from "@/lib/mock-data"
+import { mockEndCustomer, mockRewards, mockRedemptions, mockDistributor } from "@/lib/mock-data"
 import { getFromStorage, saveToStorage } from "@/lib/storage"
 import type { Reward, Redemption } from "@/lib/types"
 
@@ -171,6 +171,27 @@ export default function CustomerAccountPage() {
               </div>
               <div className="h-16 w-16 rounded-full bg-white/20 flex items-center justify-center">
                 <Star className="h-8 w-8" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Twoj dystrybutor */}
+      <div className="px-4 mt-4">
+        <h2 className="text-lg font-semibold mb-3">Twoj dystrybutor</h2>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <span className="text-lg font-bold text-primary">
+                  {mockDistributor.companyName.charAt(0)}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold truncate">{mockDistributor.companyName}</p>
+                <p className="text-sm text-muted-foreground">{mockDistributor.phone}</p>
+                <p className="text-xs text-muted-foreground truncate">{mockDistributor.email}</p>
               </div>
             </div>
           </CardContent>

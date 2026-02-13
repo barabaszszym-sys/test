@@ -1,8 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Phone, Mail, Calendar, ShoppingBag, Award } from "lucide-react"
+import { Phone, Mail, Calendar, ShoppingBag, Award, ChevronRight } from "lucide-react"
 import type { Client } from "@/lib/types"
 
 interface ClientCardProps {
@@ -20,7 +21,8 @@ export function ClientCard({ client }: ClientCardProps) {
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Link href={`/clients/${client.id}`}>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div>
@@ -67,5 +69,6 @@ export function ClientCard({ client }: ClientCardProps) {
         </div>
       </CardContent>
     </Card>
+    </Link>
   )
 }

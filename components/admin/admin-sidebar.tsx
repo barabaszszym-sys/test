@@ -2,15 +2,18 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Package, Users, UserCheck, Tag, BarChart3, Settings, ArrowLeft, Shield } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Package, Users, UserCheck, Tag, BarChart3, Settings, ArrowLeft, Shield, Trophy, Gift, ArrowRightLeft, Briefcase } from "lucide-react"
 
 const menuItems = [
   { href: "/admin/products", label: "Produkty", icon: Package },
   { href: "/admin/distributors", label: "Dystrybutorzy", icon: Users },
   { href: "/admin/clients", label: "Klienci", icon: UserCheck },
   { href: "/admin/promotions", label: "Promocje", icon: Tag },
-  { href: "/admin/sales", label: "Sprzedaż", icon: BarChart3 },
+  { href: "/admin/loyalty-programs", label: "Programy lojalnosciowe", icon: Trophy },
+  { href: "/admin/rewards", label: "Nagrody", icon: Gift },
+  { href: "/admin/redemptions", label: "Wymiany", icon: ArrowRightLeft },
+  { href: "/admin/salespersons", label: "Handlowcy", icon: Briefcase },
+  { href: "/admin/sales", label: "Raporty", icon: BarChart3 },
   { href: "/admin/roles", label: "Role i uprawnienia", icon: Shield },
   { href: "/admin/settings", label: "Ustawienia", icon: Settings },
 ]

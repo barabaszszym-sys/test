@@ -1,4 +1,4 @@
-import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit, Reward, Redemption, Discount } from "./types"
+import type { Distributor, Client, Order, Promotion, RankingEntry, Invoice, Product, Role, AdminUser, Visit, Reward, Redemption, Discount, LoyaltyProgram, PointsHistoryEntry, AdminRedemption } from "./types"
 
 export const mockConsultant = {
   id: "cons-1",
@@ -25,6 +25,8 @@ export const mockDistributor: Distributor = {
   ownerLastName: "Malinowski",
   createdAt: "2024-03-15",
   points: 250,
+  isActive: true,
+  salespersonId: "admin-2",
 }
 
 export const mockClients: Client[] = [
@@ -39,6 +41,7 @@ export const mockClients: Client[] = [
     registrationDate: "2024-01-15",
     lastPurchaseDate: "2024-12-10",
     distributorId: "dist-1",
+    newsletter: true,
   },
   {
     id: "client-2",
@@ -51,6 +54,7 @@ export const mockClients: Client[] = [
     registrationDate: "2024-02-20",
     lastPurchaseDate: "2024-12-05",
     distributorId: "dist-1",
+    newsletter: false,
   },
   {
     id: "client-3",
@@ -63,6 +67,7 @@ export const mockClients: Client[] = [
     registrationDate: "2024-03-10",
     lastPurchaseDate: "2024-08-15",
     distributorId: "dist-1",
+    newsletter: true,
   },
   {
     id: "client-4",
@@ -75,6 +80,7 @@ export const mockClients: Client[] = [
     registrationDate: "2024-01-05",
     lastPurchaseDate: "2024-12-12",
     distributorId: "dist-1",
+    newsletter: true,
   },
   {
     id: "client-5",
@@ -87,6 +93,7 @@ export const mockClients: Client[] = [
     registrationDate: "2024-04-18",
     lastPurchaseDate: "2024-11-28",
     distributorId: "dist-1",
+    newsletter: false,
   },
 ]
 
@@ -337,10 +344,12 @@ export const mockProducts: Product[] = [
     description: "Najwyższej jakości pasza sojowa dla bydła mlecznego i opasowego",
     protein: 46,
     weight: 25,
+    unit: "kg",
     pricePerUnit: 250,
     imageUrl: "/premium-soy-feed-bag.jpg",
     inStock: true,
     features: ["Wysoka strawność", "Optymalna zawartość białka 46%", "Bez GMO", "Dla bydła mlecznego i opasowego"],
+    tags: ["bydlo-mleczne", "bydlo-opasowe", "premium"],
   },
   {
     id: "prod-2",
@@ -349,10 +358,12 @@ export const mockProducts: Product[] = [
     description: "Uniwersalna pasza dla bydła mlecznego i opasowego",
     protein: 44,
     weight: 25,
+    unit: "kg",
     pricePerUnit: 200,
     imageUrl: "/standard-soy-feed-bag.jpg",
     inStock: true,
     features: ["Dobra strawność", "Zawartość białka 44%", "Uniwersalne zastosowanie", "Optymalna cena"],
+    tags: ["uniwersalny", "standard"],
   },
   {
     id: "prod-3",
@@ -361,6 +372,7 @@ export const mockProducts: Product[] = [
     description: "Ekologiczna pasza sojowa z certyfikatem EU Organic",
     protein: 45,
     weight: 20,
+    unit: "kg",
     pricePerUnit: 350,
     imageUrl: "/organic-bio-soy-feed-bag.jpg",
     inStock: true,
@@ -370,6 +382,7 @@ export const mockProducts: Product[] = [
       "Bez GMO i antybiotyków",
       "Zawartość białka 45%",
     ],
+    tags: ["bio", "ekologiczny", "certyfikat-eu"],
   },
   {
     id: "prod-4",
@@ -378,6 +391,7 @@ export const mockProducts: Product[] = [
     description: "Specjalistyczna pasza dla młodych zwierząt",
     protein: 48,
     weight: 10,
+    unit: "kg",
     pricePerUnit: 175,
     imageUrl: "/starter-young-animals-feed.jpg",
     inStock: true,
@@ -387,6 +401,7 @@ export const mockProducts: Product[] = [
       "Łatwo przyswajalna",
       "Wspiera rozwój",
     ],
+    tags: ["cieleta", "mlode-zwierzeta", "starter"],
   },
   {
     id: "prod-5",
@@ -395,6 +410,7 @@ export const mockProducts: Product[] = [
     description: "Wzbogacona formuła Premium z dodatkami mineralnymi",
     protein: 47,
     weight: 25,
+    unit: "kg",
     pricePerUnit: 280,
     imageUrl: "/premium-plus-enhanced-feed.jpg",
     inStock: true,
@@ -404,6 +420,7 @@ export const mockProducts: Product[] = [
       "Dla wysokowydajnych stad",
       "Wspomaga produkcję mleka",
     ],
+    tags: ["bydlo-mleczne", "premium", "mineraly"],
   },
   {
     id: "prod-6",
@@ -412,10 +429,12 @@ export const mockProducts: Product[] = [
     description: "Standardowa pasza ekologiczna w przystępnej cenie",
     protein: 43,
     weight: 20,
+    unit: "kg",
     pricePerUnit: 280,
     imageUrl: "/bio-standard-organic-feed.jpg",
     inStock: false,
     features: ["Certyfikat ekologiczny", "Zawartość białka 43%", "Bez GMO", "Dobra cena w segmencie bio"],
+    tags: ["bio", "ekologiczny", "budzet"],
   },
 ]
 
@@ -836,6 +855,118 @@ export const mockEndCustomer = {
   points: 1250,
   customerCode: "CUST-2024-00142",
 }
+
+// Programy lojalnosciowe
+export const mockLoyaltyPrograms: LoyaltyProgram[] = [
+  {
+    id: "prog-1",
+    name: "Program Podstawowy",
+    description: "Standardowy program punktowy. Za kazdy zakup passzy naliczane sa punkty wedlug przelicznika.",
+    operations: ["Zakup produktow", "Rejestracja nowego klienta"],
+    multiplier: 1,
+    isActive: true,
+    startDate: "2024-01-01",
+    endDate: "2026-12-31",
+  },
+  {
+    id: "prog-2",
+    name: "Program Premium",
+    description: "Program premiowy dla dystrybutorów z obrotem powyzej 50 000 PLN/rok. Podwojny przelicznik punktow.",
+    operations: ["Zakup produktow", "Rejestracja nowego klienta", "Polecenie dystrybutora"],
+    multiplier: 2,
+    isActive: true,
+    startDate: "2025-01-01",
+    endDate: "2026-12-31",
+  },
+  {
+    id: "prog-3",
+    name: "Program Sezonowy Zima 2026",
+    description: "Dodatkowe punkty za zakup paszy Premium i Bio w sezonie zimowym.",
+    operations: ["Zakup produktow Premium", "Zakup produktow Bio"],
+    multiplier: 3,
+    isActive: false,
+    startDate: "2025-12-01",
+    endDate: "2026-02-28",
+  },
+]
+
+// Historia punktow dystrybutora
+export const mockPointsHistory: PointsHistoryEntry[] = [
+  { id: "ph-1", date: "2026-02-10", operation: "Zakup: Soymax Premium 25kg x4", points: 40, balance: 250 },
+  { id: "ph-2", date: "2026-02-05", operation: "Wymiana: Voucher 50 PLN", points: -100, balance: 210 },
+  { id: "ph-3", date: "2026-01-28", operation: "Zakup: Soymax Bio+ 20kg x2", points: 30, balance: 310 },
+  { id: "ph-4", date: "2026-01-20", operation: "Rejestracja klienta: Agnieszka Zielinska", points: 50, balance: 280 },
+  { id: "ph-5", date: "2026-01-15", operation: "Zakup: Soymax Standard 25kg x6", points: 48, balance: 230 },
+  { id: "ph-6", date: "2026-01-10", operation: "Bonus: Program Sezonowy Zima", points: 100, balance: 182 },
+  { id: "ph-7", date: "2025-12-28", operation: "Zakup: Soymax Starter 10kg x3", points: 21, balance: 82 },
+  { id: "ph-8", date: "2025-12-20", operation: "Zakup: Soymax Premium Plus 25kg x2", points: 22, balance: 61 },
+  { id: "ph-9", date: "2025-12-15", operation: "Rejestracja klienta: Tomasz Lewandowski", points: 50, balance: 39 },
+  { id: "ph-10", date: "2025-12-01", operation: "Bonus powitalny", points: -11, balance: -11 },
+]
+
+// Wymiany nagrod (widok admina)
+export const mockAdminRedemptions: AdminRedemption[] = [
+  {
+    id: "ar-1",
+    clientId: "client-1",
+    rewardId: "reward-1",
+    rewardName: "Czapka SOYMAX",
+    pointsSpent: 500,
+    status: "collected",
+    redeemedAt: "2025-11-15T10:30:00",
+    pickupType: "distributor",
+    clientName: "Jan Nowak",
+    clientEmail: "jan.nowak@gmail.com",
+  },
+  {
+    id: "ar-2",
+    clientId: "client-4",
+    rewardId: "reward-2",
+    rewardName: "Kurtka robocza SOYMAX",
+    pointsSpent: 2000,
+    status: "ready",
+    redeemedAt: "2026-01-20T14:00:00",
+    pickupType: "soymax",
+    clientName: "Agnieszka Zielinska",
+    clientEmail: "a.zielinska@onet.pl",
+  },
+  {
+    id: "ar-3",
+    clientId: "client-2",
+    rewardId: "reward-3",
+    rewardName: "Voucher 100 PLN",
+    pointsSpent: 1000,
+    status: "pending",
+    redeemedAt: "2026-02-01T09:15:00",
+    pickupType: "distributor",
+    clientName: "Maria Wisniewska",
+    clientEmail: "maria.w@gmail.com",
+  },
+  {
+    id: "ar-4",
+    clientId: "client-5",
+    rewardId: "reward-4",
+    rewardName: "Termos turystyczny",
+    pointsSpent: 750,
+    status: "pending",
+    redeemedAt: "2026-02-08T16:30:00",
+    pickupType: "delivery",
+    clientName: "Tomasz Lewandowski",
+    clientEmail: "t.lewandowski@gmail.com",
+  },
+  {
+    id: "ar-5",
+    clientId: "client-1",
+    rewardId: "reward-3",
+    rewardName: "Voucher 100 PLN",
+    pointsSpent: 1000,
+    status: "collected",
+    redeemedAt: "2025-10-05T11:00:00",
+    pickupType: "distributor",
+    clientName: "Jan Nowak",
+    clientEmail: "jan.nowak@gmail.com",
+  },
+]
 
 // Rabaty dystrybutora
 export const mockDiscounts: Discount[] = [

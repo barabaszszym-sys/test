@@ -46,11 +46,12 @@ export interface Distributor {
   consultant: Consultant
   registeredClientsCount: number
   activeClientsCount: number
-  // Dane osobowe właściciela/reprezentanta
   ownerFirstName: string
   ownerLastName: string
-  createdAt: string // data dodania do aplikacji
-  points: number // punkty lojalnościowe dystrybutora
+  createdAt: string
+  points: number
+  isActive: boolean
+  salespersonId: string
 }
 
 export interface Client {
@@ -64,6 +65,9 @@ export interface Client {
   registrationDate: string
   lastPurchaseDate: string | null
   distributorId: string
+  newsletter: boolean
+  city?: string
+  zipCode?: string
 }
 
 export interface OrderItem {
@@ -90,15 +94,18 @@ export interface Promotion {
   id: string
   title: string
   description: string
-  fullDescription?: string // Added full description for detail page
+  fullDescription?: string
   imageUrl: string
   startDate: string
   endDate: string
   type: "product" | "points" | "info"
-  multiplier?: number // Added multiplier for bonus promotions (e.g. 2 for x2 points)
-  discountBonus?: number // Added discount bonus percentage
-  assignedProductIds?: string[] // Added assigned products and status
+  multiplier?: number
+  discountBonus?: number
+  assignedProductIds?: string[]
   isActive: boolean
+  discountType?: "percentage" | "fixed"
+  discountValue?: number
+  programId?: string
 }
 
 export interface RankingEntry {
@@ -128,10 +135,12 @@ export interface Product {
   description: string
   protein: number // % zawartości białka
   weight: number // kg
+  unit: string // kg, szt, tona
   pricePerUnit: number // PLN
   imageUrl: string
   inStock: boolean
   features: string[]
+  tags: string[]
 }
 
 // Role i uprawnienia
@@ -208,6 +217,33 @@ export interface Discount {
   minOrderValue?: number
   expiryDate: string
   active: boolean
+}
+
+// Program lojalnosciowy
+export interface LoyaltyProgram {
+  id: string
+  name: string
+  description: string
+  operations: string[] // operacje punktowane
+  multiplier: number // przelicznik punktowy
+  isActive: boolean
+  startDate: string
+  endDate: string
+}
+
+// Historia przyznania punktow
+export interface PointsHistoryEntry {
+  id: string
+  date: string
+  operation: string // np. "Zakup SoyProtein Premium 25kg"
+  points: number // dodatnie = przyznane, ujemne = wydane
+  balance: number // saldo po operacji
+}
+
+// Wymiana nagrody z danymi klienta (dla admina)
+export interface AdminRedemption extends Redemption {
+  clientName: string
+  clientEmail: string
 }
 
 // Lista wszystkich uprawnień w systemie

@@ -31,6 +31,7 @@ export default function RegisterPage() {
     farmNumber: "",
     farmZipCode: "",
     farmPostalCode: "",
+    newsletter: false,
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -337,20 +338,35 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            {/* Newsletter opt-in */}
+            <div className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                id="newsletter"
+                checked={formData.newsletter as boolean}
+                onChange={(e) => setFormData((prev) => ({ ...prev, newsletter: e.target.checked }))}
+                className="mt-1 h-4 w-4 rounded border-gray-300"
+                disabled={isLoading}
+              />
+              <Label htmlFor="newsletter" className="text-sm text-muted-foreground leading-tight cursor-pointer">
+                Chce otrzymywac newsletter z informacjami o promocjach i nowosciach SOYMAX
+              </Label>
+            </div>
+
             {/* Przycisk submit */}
             <Button
               type="submit"
               className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
-              {isLoading ? "Rejestrowanie..." : "Zarejestruj się"}
+              {isLoading ? "Rejestrowanie..." : "Zarejestruj sie"}
             </Button>
 
             {/* Link do logowania */}
             <p className="text-center text-sm text-gray-600">
-              Masz już konto?{" "}
-              <Link href="/" className="text-green-600 hover:underline font-medium">
-                Zaloguj się
+              Masz juz konto?{" "}
+              <Link href="/auth/customer-login" className="text-green-600 hover:underline font-medium">
+                Zaloguj sie
               </Link>
             </p>
 
